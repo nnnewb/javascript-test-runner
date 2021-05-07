@@ -9,12 +9,12 @@
   "imageSize": 100,
   "commit": true,
   "contributors": [
-   {
-     "login": "g3offrey",
-     "name": "Geoffrey",
-     "avatar_url": "https://avatars1.githubusercontent.com/u/11151445?v=4",
-     "profile": "https://github.com/g3offrey",
-     "contributions": [
+    {
+      "login": "g3offrey",
+      "name": "Geoffrey",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/11151445?v=4",
+      "profile": "https://github.com/g3offrey",
+      "contributions": [
         "code",
         "ideas"
       ]
@@ -121,6 +121,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "nnnewb",
+      "name": "weak_ptr",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16402753?v=4",
+      "profile": "https://github.com/nnnewb",
+      "contributions": [
+        "code"
+      ]
     }
-  ]
+  ],
+  "commitConvention": "none"
 }
