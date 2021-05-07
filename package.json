@@ -2,8 +2,8 @@
   "name": "javascript-test-runner",
   "displayName": "JavaScript Test Runner",
   "description": "Run JavaScript tests easily using CodeLens.",
-  "version": "1.2.4",
-  "publisher": "oshri6688",
+  "version": "1.2.5",
+  "publisher": "weakptr",
   "engines": {
     "vscode": "^1.39.0"
   },
