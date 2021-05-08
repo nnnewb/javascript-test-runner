@@ -2,7 +2,13 @@ import { CodeLens, CodeLensProvider, TextDocument, workspace } from "vscode";
 
 import TestRunnerDebugCodeLens from "../codelens/TestDebugRunnerCodeLens";
 import TestRunnerCodeLens from "../codelens/TestRunnerCodeLens";
-import { codeParser } from "../parser/codeParser";
+import {
+  codeParser,
+  jsPlugins,
+  jsxPlugins,
+  tsPlugins,
+  tsxPlugins,
+} from "../parser/codeParser";
 
 function getRootPath({ uri }) {
   const activeWorkspace = workspace.getWorkspaceFolder(uri);
@@ -39,7 +45,25 @@ export default class TestRunnerCodeLensProvider implements CodeLensProvider {
     const createRangeObject = ({ line }) => document.lineAt(line - 1).range;
     const rootPath = getRootPath(document);
 
-    return codeParser(document.getText()).reduce(
+    let plugins = [];
+    switch (document.languageId) {
+      case "typescript":
+        plugins = tsPlugins;
+        break;
+      case "javascript":
+        plugins = jsPlugins;
+        break;
+      case "typescriptreact":
+        plugins = tsxPlugins;
+        break;
+      case "javascriptreact":
+        plugins = jsxPlugins;
+        break;
+      default:
+        return [];
+    }
+
+    return codeParser(document.getText(), plugins).reduce(
       (acc, { loc, testName }) => [
         ...acc,
         ...getCodeLens(
@@ -47,7 +71,7 @@ export default class TestRunnerCodeLensProvider implements CodeLensProvider {
           document.fileName,
           testName,
           createRangeObject(loc.start)
-        )
+        ),
       ],
       []
     );

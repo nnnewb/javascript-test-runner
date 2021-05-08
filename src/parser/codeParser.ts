@@ -1,12 +1,53 @@
-import { parse } from "@babel/parser";
+import { parse, ParserPlugin } from "@babel/parser";
 
 const testTokens = ["describe", "it", "test"];
 
-function codeParser(sourceCode) {
+export const tsPlugins: ParserPlugin[] = [
+  "typescript",
+  "objectRestSpread",
+  "optionalChaining",
+];
+
+export const tsxPlugins: ParserPlugin[] = ["jsx", ...tsPlugins];
+export const jsPlugins: ParserPlugin[] = [
+  "objectRestSpread",
+  "optionalChaining",
+  "asyncDoExpressions",
+  "asyncGenerators",
+  "bigInt",
+  "classPrivateMethods",
+  "classPrivateProperties",
+  "classProperties",
+  "classStaticBlock",
+  "decimal",
+  "doExpressions",
+  "dynamicImport",
+  "estree",
+  "exportDefaultFrom",
+  "functionBind",
+  "functionSent",
+  "importMeta",
+  "logicalAssignment",
+  "importAssertions",
+  "moduleStringNames",
+  "nullishCoalescingOperator",
+  "numericSeparator",
+  "optionalCatchBinding",
+  "partialApplication",
+  "placeholders",
+  "privateIn",
+  "throwExpressions",
+  "topLevelAwait",
+];
+
+export const jsxPlugins: ParserPlugin[] = ["jsx", ...jsPlugins];
+
+function codeParser(sourceCode: string, plugins: ParserPlugin[]) {
   const ast = parse(sourceCode, {
-    plugins: ["jsx", "typescript", "objectRestSpread", "optionalChaining"],
+    plugins: plugins,
     sourceType: "module",
-    tokens: true
+    tokens: true,
+    errorRecovery: true,
   });
 
   return ast.tokens
@@ -24,7 +65,7 @@ function codeParser(sourceCode) {
 
       return {
         loc,
-        testName: ast.tokens[index + 2].value
+        testName: ast.tokens[index + 2].value,
       };
     })
     .filter(Boolean);

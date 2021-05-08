@@ -6,7 +6,7 @@
 // The module 'assert' provides assertion methods from node
 import * as assert from "assert";
 
-import { codeParser } from "../../parser/codeParser";
+import { codeParser, jsPlugins, jsxPlugins } from "../../parser/codeParser";
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("codeParser Tests", () => {
@@ -15,7 +15,7 @@ suite("codeParser Tests", () => {
     const code = `
             describe('Fake test', () => {});
         `;
-    assert.equal(1, codeParser(code).length);
+    assert.equal(1, codeParser(code, jsPlugins).length);
   });
 
   test("Invalid Tokens", () => {
@@ -26,7 +26,7 @@ suite("codeParser Tests", () => {
                 let firstName = 'test';
             }
         `;
-    assert.equal(0, codeParser(code).length);
+    assert.equal(0, codeParser(code, jsPlugins).length);
   });
 
   test("Jsx syntax", () => {
@@ -49,6 +49,6 @@ suite("codeParser Tests", () => {
             });
         });
         `;
-    assert.equal(2, codeParser(code).length);
+    assert.equal(2, codeParser(code, jsxPlugins).length);
   });
 });
