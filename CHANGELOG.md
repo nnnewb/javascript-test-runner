@@ -3,6 +3,10 @@ All notable changes to the "javascript-test-runner" extension will be documented
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.2.7] - 2021-5-8
+- Improve CodeLens stability, ease blinking problem when typing.
+- Fix typescript type assertion cause an syntax error
+
 ## [1.0.0] - 2018-07-22
 - Improve test token detection
 - Add debug mode for test and test suite
