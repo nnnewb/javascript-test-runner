@@ -1,19 +1,19 @@
-import { exists } from "fs";
-import { join } from "path";
-import { WorkspaceFolder } from "vscode";
+import { exists } from 'fs';
+import { join } from 'path';
+import { WorkspaceFolder } from 'vscode';
 
-import { ITestRunnerInterface } from "../interfaces/ITestRunnerInterface";
-import { ConfigurationProvider } from "../providers/ConfigurationProvider";
-import { TerminalProvider } from "../providers/TerminalProvider";
-import { ReactScriptsTestRunner } from "./ReactScriptsTestRunner";
-import { JestTestRunner } from "./JestTestRunner";
-import { MochaTestRunner } from "./MochaTestRunner";
+import { ITestRunnerInterface } from '../interfaces/ITestRunnerInterface';
+import { ConfigurationProvider } from '../providers/ConfigurationProvider';
+import { TerminalProvider } from '../providers/TerminalProvider';
+import { ReactScriptsTestRunner } from './ReactScriptsTestRunner';
+import { JestTestRunner } from './JestTestRunner';
+import { MochaTestRunner } from './MochaTestRunner';
 
 const terminalProvider = new TerminalProvider();
 
 function doesFileExist(filePath: string): Promise<boolean> {
-  return new Promise(resolve => {
-    exists(filePath, doesExist => {
+  return new Promise((resolve) => {
+    exists(filePath, (doesExist) => {
       resolve(doesExist);
     });
   });
@@ -24,40 +24,33 @@ async function getAvailableTestRunner(
   rootPath: WorkspaceFolder
 ): Promise<ITestRunnerInterface> {
   for (const runner of testRunners) {
-    const doesRunnerExist = await doesFileExist(
-      join(rootPath.uri.fsPath, runner.binPath)
-    );
+    const doesRunnerExist = await doesFileExist(join(rootPath.uri.fsPath, runner.binPath));
 
     if (doesRunnerExist) {
       return runner;
     }
   }
 
-  throw new Error("No test runner in your project. Please install one.");
+  throw new Error('No test runner in your project. Please install one.');
 }
 
-export async function getTestRunner(
-  rootPath: WorkspaceFolder
-): Promise<ITestRunnerInterface> {
+export async function getTestRunner(rootPath: WorkspaceFolder): Promise<ITestRunnerInterface> {
   const configurationProvider = new ConfigurationProvider(rootPath);
 
   const reactScriptsTestRunner = new ReactScriptsTestRunner({
     configurationProvider,
-    terminalProvider
+    terminalProvider,
   });
 
   const jestTestRunner = new JestTestRunner({
     configurationProvider,
-    terminalProvider
+    terminalProvider,
   });
 
   const mochaTestRunner = new MochaTestRunner({
     configurationProvider,
-    terminalProvider
+    terminalProvider,
   });
 
-  return getAvailableTestRunner(
-    [reactScriptsTestRunner, jestTestRunner, mochaTestRunner],
-    rootPath
-  );
+  return getAvailableTestRunner([reactScriptsTestRunner, jestTestRunner, mochaTestRunner], rootPath);
 }
